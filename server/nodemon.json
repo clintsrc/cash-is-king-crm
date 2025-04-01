@@ -1,0 +1,14 @@
+{
+  "watch": [
+    "client/src",
+    "server/src",
+    "package.json",
+    "tsconfig.json"
+  ],
+  "ext": "ts,json,js,html",
+  "ignore": ["node_modules", "dist"],
+  "execMap": {
+    "ts": "ts-node"
+  },
+  "delay": "1000"
+}

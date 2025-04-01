@@ -1,0 +1,91 @@
+# Test Check
+#
+# Validate all PRs on the develop branch to ensure the code is in a healthy state
+# before it can be merged into main. The script can be monitored on a pull request's
+# Checks tab, and the Summary menu option will show the cypress test summary
+#
+# Note: the key to the report summary magic is $GITHUB_STEP_SUMMARY!
+#
+# refs:
+#   https://docs.cypress.io/app/continuous-integration/github-actions
+#   https://github.blog/news-insights/product-news/supercharging-github-actions-with-job-summaries/
+#   https://emojipedia.org/
+#
+name: Run Tests
+
+on:
+  # Trigger for any pull request activity on the develop branch (create, update)
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  cypress-run:
+    # This name should be added to GitHub's 'specific checks' branch protection config
+    name: Checking Tests
+    runs-on: ubuntu-latest
+
+    # Run a build, start the dev server, run cypress tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run build
+        run: npm run build
+
+      - name: Run the server
+        run: npm run develop &  # Background the server process
+
+      - name: Run Cypress tests
+        run: npm run test:comp
+        continue-on-error: true  # Continue on in order to report failed tests
+
+      # Save the downloadable reports artifact for any further investigation
+      - name: Upload Cypress report artifacts
+        # Upload the report even if tests fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-report
+          path: cypress/reports/.jsons/mochawesome.json
+
+      - name: Display Cypress test Job Summary
+        # Show the summary even if tests fail
+        if: always()
+        run: |
+          # Parse the test report
+          RESULTS=$(cat cypress/reports/.jsons/mochawesome.json)
+
+          # Extract the results from the report
+          PASSED=$(echo $RESULTS | jq '.stats.passes')
+          FAILED=$(echo $RESULTS | jq '.stats.failures')
+          PENDING=$(echo $RESULTS | jq '.stats.pending')
+          SKIPPED=$(echo $RESULTS | jq '.stats.skipped')
+          DURATION=$(echo $RESULTS | jq '.stats.duration')
+
+          # Format the duration (convert to seconds and round to 3 decimal places)
+          DURATION=$(echo "scale=3; $DURATION / 1000" | bc)
+
+          # Write the report summary to the GitHub Actions job summary in a table format
+          echo "## Cypress Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "| Result  | Passed ✅ | Failed ❌ | Pending 🤚 | Skipped ↩️ | Duration 🕗 |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|-----------|---------|---------|---------|------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Passing | $PASSED   | $FAILED | $PENDING | $SKIPPED | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
+
+      # Fail the job if there are test failures
+      - name: Fail if tests failed
+        # Run even if tests fail in order to fail the check
+        if: always()
+        run: |
+          RESULTS=$(cat cypress/reports/.jsons/mochawesome.json)
+          FAILED=$(echo $RESULTS | jq '.stats.failures')
+
+          if [ "$FAILED" -gt 0 ]; then
+            echo "Tests failed: $FAILED ❌"
+            exit 1
+          else
+            echo "All tests passed ✅"
+          fi

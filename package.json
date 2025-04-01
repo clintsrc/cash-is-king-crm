@@ -1,0 +1,44 @@
+{
+  "name": "authgql",
+  "version": "1.0.0",
+  "description": "throwaway repo for graphql and authentication review",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
+    "clean": "concurrently \"cd server && npm run clean\" \"cd client && npm run clean\"",
+    "cleanall": "concurrently \"cd server && npm run cleanall\" \"cd client && npm run cleanall\"",
+    "client:dev": "cd client && npm run dev",
+    "dev": "concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\"",
+    "install": "cd server && npm ci && cd ../client && npm ci",
+    "lint": "concurrently \"cd server && npm run lint\" \"cd client && npm run lint\"",
+    "lint:fix": "concurrently \"cd server && npm run lint:fix\" \"cd client && npm run lint:fix\"",
+    "seed": "cd server && npm run seed",
+    "server:dev": "cd server && npm run dev",
+    "start": "cd server && npm run start",
+    "test": "concurrently \"npm run test:comp\" \"npm run test:e2e\"",
+    "test:comp": "cypress run --component",
+    "test:e2e": "cypress run --e2e",
+    "test:gui": "cypress open --detached"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@apollo/client": "^3.13.5",
+    "@cypress/react": "^9.0.1",
+    "@testing-library/cypress": "^10.0.3",
+    "concurrently": "^9.1.2",
+    "cypress": "^14.2.1",
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "mochawesome": "^7.1.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3",
+    "wait-on": "^8.0.3"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.4"
+  }
+}

@@ -1,0 +1,2 @@
+disable=SC2148  # shell shebang
+disable=SC2034  # unsed env

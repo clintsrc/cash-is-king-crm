@@ -1,0 +1,43 @@
+#
+# Lint Check
+#
+# Executes the linter for any commit push or open PR
+#
+# If a lint job is already running, cancel it to use the latest
+#
+name: Lint
+
+on:
+  # catch lint errors applied to a branch
+  push:
+    branches:
+      - "**"
+  # catch any attempts to merge branches that have lint errors
+  pull_request:
+    branches:
+      - "**"
+
+concurrency:
+  # Filtering on the current branch ref helps avoid concurrency
+  group: ${{ github.ref }}
+  # Cancel running lint jobs
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint

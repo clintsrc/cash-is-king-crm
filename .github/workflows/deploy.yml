@@ -1,0 +1,51 @@
+# 
+# Deploy Check
+#
+# Executes for any PR or Merge pull request to the main branch. PR changes don't 
+# currently do anything, but it is extensible for adding final pre-release actions 
+# or tests like linting.
+#
+# Executes a deployment to Render for Merge pull request (push) actions to the main
+# branch.
+#
+# The script can be monitored on a pull request's Checks tab
+#
+name: Deploy To Production
+
+on:
+  # A merge from develop into main (clicking the 'Merge pull request' button) triggers 
+  # the push event to main 
+  push:
+    branches: [main]
+  # Trigger for any pull request activity on the main branch (create, update)
+  # This allows additional steps to run for the PR without actually executing the 
+  # render deployment. This makes the script more extensible.
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  deploy:
+    # This name should be added to GitHub's 'specific checks' branch protection config
+    name: Deploy To Render
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy
+        # Make sure the branch is the main branch (the Merge pull request push action)
+        if: github.ref == 'refs/heads/main'
+        env:
+          DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl "$DEPLOY_URL"

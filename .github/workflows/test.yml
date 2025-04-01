@@ -11,13 +11,19 @@
 #   https://github.blog/news-insights/product-news/supercharging-github-actions-with-job-summaries/
 #   https://emojipedia.org/
 #
-name: Run Tests
+name: Run Component Tests
 
 on:
   # Trigger for any pull request activity on the develop branch (create, update)
   pull_request:
     branches:
       - develop
+
+concurrency:
+  # Filtering on the current branch ref helps avoid concurrency
+  group: ${{ github.ref }}
+  # Cancel running lint jobs
+  cancel-in-progress: true
 
 jobs:
   cypress-run:
@@ -33,58 +39,104 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run build
+      - name: Compile
+        # TypeScript transpile
         run: npm run build
 
-      - name: Run the server
-        run: npm run develop &  # Background the server process
-
-      - name: Run Cypress tests
+      - name: Run Cypress component tests
         run: npm run test:comp
-        continue-on-error: true  # Continue on in order to report failed tests
+        continue-on-error: true # Continue on in order to report failed tests
+
+      - name: Start the client
+        run: npm run client:dev &  # Background the client process
+
+      - name: Start the server
+        env:
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+        run: npm run start &  # Background the server process
+
+      - name: Run Cypress E2E tests
+        run: npx cypress run --e2e --headless
+        continue-on-error: true # Continue on in order to report failed tests
 
       # Save the downloadable reports artifact for any further investigation
-      - name: Upload Cypress report artifacts
-        # Upload the report even if tests fail
+      - name: Upload Cypress component report artifacts
+        # Upload the component report even if tests fail
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-report
-          path: cypress/reports/.jsons/mochawesome.json
+          name: cypress-component-report
+          path: cypress/reports/component/mochawesome.json
 
-      - name: Display Cypress test Job Summary
-        # Show the summary even if tests fail
+      - name: Upload Cypress E2E report artifacts
+        # Upload the E2E report even if tests fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-e2e-report
+          path: cypress/reports/e2e/mochawesome.json
+
+      - name: Display Cypress component test Job Summary
+        # Show the component test report even if tests fail
         if: always()
         run: |
-          # Parse the test report
-          RESULTS=$(cat cypress/reports/.jsons/mochawesome.json)
+          # Parse the component test report
+          COMPONENT_RESULTS=$(cat cypress/reports/component/mochawesome.json)
 
-          # Extract the results from the report
-          PASSED=$(echo $RESULTS | jq '.stats.passes')
-          FAILED=$(echo $RESULTS | jq '.stats.failures')
-          PENDING=$(echo $RESULTS | jq '.stats.pending')
-          SKIPPED=$(echo $RESULTS | jq '.stats.skipped')
-          DURATION=$(echo $RESULTS | jq '.stats.duration')
+          # Extract the results from the component report
+          COMPONENT_PASSED=$(echo $COMPONENT_RESULTS | jq '.stats.passes')
+          COMPONENT_FAILED=$(echo $COMPONENT_RESULTS | jq '.stats.failures')
+          COMPONENT_PENDING=$(echo $COMPONENT_RESULTS | jq '.stats.pending')
+          COMPONENT_SKIPPED=$(echo $COMPONENT_RESULTS | jq '.stats.skipped')
+          COMPONENT_DURATION=$(echo $COMPONENT_RESULTS | jq '.stats.duration')
 
           # Format the duration (convert to seconds and round to 3 decimal places)
-          DURATION=$(echo "scale=3; $DURATION / 1000" | bc)
+          COMPONENT_DURATION=$(echo "scale=3; $COMPONENT_DURATION / 1000" | bc)
 
-          # Write the report summary to the GitHub Actions job summary in a table format
-          echo "## Cypress Test Results" >> $GITHUB_STEP_SUMMARY
+          # Write the component report summary to the GitHub Actions job summary in a table format
+          echo "## Cypress Component Test Results" >> $GITHUB_STEP_SUMMARY
           echo "| Result  | Passed ✅ | Failed ❌ | Pending 🤚 | Skipped ↩️ | Duration 🕗 |" >> $GITHUB_STEP_SUMMARY
           echo "|---------|-----------|---------|---------|---------|------------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Passing | $PASSED   | $FAILED | $PENDING | $SKIPPED | ${DURATION}s |" >> $GITHUB_STEP_SUMMARY
+          echo "| Component Tests | $COMPONENT_PASSED   | $COMPONENT_FAILED | $COMPONENT_PENDING | $COMPONENT_SKIPPED | ${COMPONENT_DURATION}s |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Display Cypress E2E test Job Summary
+        # Show the summary for E2E tests even if tests fail
+        if: always()
+        run: |
+          # Parse the E2E test report
+          E2E_RESULTS=$(cat cypress/reports/e2e/mochawesome.json)
+
+          # Extract the results from the E2E report
+          E2E_PASSED=$(echo $E2E_RESULTS | jq '.stats.passes')
+          E2E_FAILED=$(echo $E2E_RESULTS | jq '.stats.failures')
+          E2E_PENDING=$(echo $E2E_RESULTS | jq '.stats.pending')
+          E2E_SKIPPED=$(echo $E2E_RESULTS | jq '.stats.skipped')
+          E2E_DURATION=$(echo $E2E_RESULTS | jq '.stats.duration')
+
+          # Format the duration (convert to seconds and round to 3 decimal places)
+          E2E_DURATION=$(echo "scale=3; $E2E_DURATION / 1000" | bc)
+
+          # Write the E2E test results to the GitHub Actions job summary in a table format
+          echo "## Cypress E2E Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "| Result  | Passed ✅ | Failed ❌ | Pending 🤚 | Skipped ↩️ | Duration 🕗 |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|-----------|---------|---------|---------|------------|" >> $GITHUB_STEP_SUMMARY
+          echo "| E2E Tests | $E2E_PASSED   | $E2E_FAILED | $E2E_PENDING | $E2E_SKIPPED | ${E2E_DURATION}s |" >> $GITHUB_STEP_SUMMARY
 
       # Fail the job if there are test failures
       - name: Fail if tests failed
         # Run even if tests fail in order to fail the check
         if: always()
         run: |
-          RESULTS=$(cat cypress/reports/.jsons/mochawesome.json)
-          FAILED=$(echo $RESULTS | jq '.stats.failures')
+          COMPONENT_RESULTS=$(cat cypress/reports/component/mochawesome.json)
+          E2E_RESULTS=$(cat cypress/reports/e2e/mochawesome.json)
 
-          if [ "$FAILED" -gt 0 ]; then
-            echo "Tests failed: $FAILED ❌"
+          COMPONENT_FAILED=$(echo $COMPONENT_RESULTS | jq '.stats.failures')
+          E2E_FAILED=$(echo $E2E_RESULTS | jq '.stats.failures')
+
+          TOTAL_FAILED=$((COMPONENT_FAILED + E2E_FAILED))
+
+          if [ "$TOTAL_FAILED" -gt 0 ]; then
+            echo "Tests failed: $TOTAL_FAILED ❌"
             exit 1
           else
             echo "All tests passed ✅"

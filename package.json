@@ -1,5 +1,5 @@
 {
-  "name": "authgql",
+  "name": "cash-is-king-crm",
   "version": "1.0.0",
   "description": "throwaway repo for graphql and authentication review",
   "main": "server/server.js",

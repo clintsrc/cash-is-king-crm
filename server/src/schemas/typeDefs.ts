@@ -64,7 +64,7 @@ const typeDefs = `
     me: User
 
     orders: [Order!]!
-    order(_id: ID!): Order
+    order(id: ID!): Order
   }
 
   ##############  Mutations
@@ -77,6 +77,12 @@ const typeDefs = `
 
     # Create an Order
     orderCreate(input: OrderInput!): Order!
+
+    # Delete an Order
+    orderDelete(id: ID!): Boolean!
+
+    #Update an Order
+    orderUpdate(id: ID!, status: OrderStatus!): Order
   }
 `;
 

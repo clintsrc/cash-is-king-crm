@@ -15,7 +15,7 @@ import { signToken, AuthenticationError } from '../utils/auth.js';
 // Define interfaces for mutation arguments
 
 interface OrderArgs {
-  _id: string;
+  id: string;
 }
 
 interface CreateOrderArgs {
@@ -25,6 +25,11 @@ interface CreateOrderArgs {
   address: {
     city: string;
   }
+}
+
+interface UpdateStatusArgs {
+  id: string;
+  status: string;
 }
 
 // Queries
@@ -82,8 +87,8 @@ const resolvers = {
       return await Order.find();
     },
 
-    order: async (_parent: unknown, {_id}: OrderArgs) => {
-      return await Order.findById(_id);
+    order: async (_parent: unknown, {id}: OrderArgs) => {
+      return await Order.findById(id);
     }
   },
 
@@ -148,6 +153,30 @@ const resolvers = {
       }
       catch(error) {
         throw new Error(`ERROR CREATING ORDER: ${error}`);
+      }
+    },
+
+    orderDelete: async (_parent: unknown, {id}: {id: string}) => {
+      try {
+        const order = await Order.findByIdAndDelete(id);
+        if (!order) {
+          throw new Error('ORDER NOT FOUND FOR DELETION');
+        }
+        return true;
+      } catch(error) {
+          throw new Error(`Unable TO DELETE ORDER:${error}`);
+      }
+    },
+
+    orderUpdate: async (_parent: unknown, {id, status}: UpdateStatusArgs ) => {
+      try {
+        const order = await Order.findByIdAndUpdate(id, { status }, { new: true });
+        if (!order) {
+          throw new Error('ORDER NOT FOUND FOR UPDATING');
+        }
+        return order;
+      } catch(error) {
+          throw new Error(`Unable TO UPDATE ORDER:${error}`);
       }
     }
   }, // end mutations

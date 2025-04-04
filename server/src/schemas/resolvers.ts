@@ -7,10 +7,25 @@
  *
  */
 
-import { User } from '../models/index.js';
+import { User, Order } from '../models/index.js';
 import { signToken, AuthenticationError } from '../utils/auth.js';
+// Adjust the path to your Order model
+
 
 // Define interfaces for mutation arguments
+
+interface OrderArgs {
+  _id: string;
+}
+
+interface CreateOrderArgs {
+  firstName: string;
+  lastName: string;
+  status: string;
+  address: {
+    city: string;
+  }
+}
 
 // Queries
 interface UserArgs {
@@ -62,7 +77,17 @@ const resolvers = {
       // If the user is not authenticated, throw an AuthenticationError
       throw new AuthenticationError('Could not authenticate user.');
     },
+
+    orders: async () => {
+      return await Order.find();
+    },
+
+    order: async (_parent: unknown, {_id}: OrderArgs) => {
+      return await Order.findById(_id);
+    }
   },
+
+
 
   /***
    * Mutations
@@ -114,6 +139,17 @@ const resolvers = {
         throw new AuthenticationError(`Login failed ${error}`);
       }
     },
+
+    orderCreate: async (_parent: unknown, {input}: {input: CreateOrderArgs}) => {
+      try {
+        const {firstName, lastName, status, address} = input;
+        const order = new Order({firstName, lastName, status, address});
+        return await order.save();
+      }
+      catch(error) {
+        throw new Error(`ERROR CREATING ORDER: ${error}`);
+      }
+    }
   }, // end mutations
 }; // end resolvers
 

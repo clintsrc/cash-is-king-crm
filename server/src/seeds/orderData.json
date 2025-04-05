@@ -1,110 +1,50 @@
 [
   {
-    "first_name": "Joe",
-    "last_name": "User",
-    "email": "joe_user@gmail.com",
-    "event_name": "Downtown Farmer's Market",
-    "start_date": "2025-04-05T00:00:00.000Z",
-    "end_date": "2025-04-06T00:00:00.000Z",
-    "atms": 2,
-    "description": "2 ATMs needed for the SLC Downtown Farmer's Market. One on the northwest side, the other on the southeast end.",
-    "phone_number": "8013334444",
-    "status": "pending",
+    "firstName": "John",
+    "lastName": "Doe",
+    "status": "PENDING",
     "address": {
-      "street": "400 South 400 West",
-      "city": "Salt Lake City",
-      "state": "Utah",
-      "zip": "84101"
+      "city": "Provo"
     }
   },
   {
-    "first_name": "Sarah",
-    "last_name": "Jones",
-    "email": "sarah.jones@example.com",
-    "event_name": "Spring Music Festival",
-    "start_date": "2025-05-15T00:00:00.000Z",
-    "end_date": "2025-05-17T00:00:00.000Z",
-    "atms": 3,
-    "description": "3 ATMs needed for the festival: one near main stage, one at the food court, and one near parking.",
-    "phone_number": "8015551234",
-    "status": "scheduled",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "status": "APPROVED",
     "address": {
-      "street": "200 East 500 South",
-      "city": "Salt Lake City",
-      "state": "Utah",
-      "zip": "84102"
+      "city": "Salt Lake City"
     }
   },
   {
-    "first_name": "Mark",
-    "last_name": "Anderson",
-    "email": "mark.anderson@example.com",
-    "event_name": "Food Truck Rally",
-    "start_date": "2025-06-10T00:00:00.000Z",
-    "end_date": "2025-06-11T00:00:00.000Z",
-    "atms": 1,
-    "description": "1 ATM needed near the main food truck area for easy access.",
-    "phone_number": "8017778888",
-    "status": "pending",
+    "firstName": "Alice",
+    "lastName": "Johnson",
+    "status": "DENIED",
     "address": {
-      "street": "350 West 200 South",
-      "city": "Salt Lake City",
-      "state": "Utah",
-      "zip": "84103"
+      "city": "Ogden"
     }
   },
   {
-    "first_name": "Emily",
-    "last_name": "Carter",
-    "email": "emily.carter@example.com",
-    "event_name": "Art and Wine Fair",
-    "start_date": "2025-07-20T00:00:00.000Z",
-    "end_date": "2025-07-21T00:00:00.000Z",
-    "atms": 2,
-    "description": "2 ATMs needed: one at the entrance and another near the wine tasting area.",
-    "phone_number": "8019995678",
-    "status": "denied",
+    "firstName": "Bob",
+    "lastName": "Williams",
+    "status": "COMPLETED",
     "address": {
-      "street": "600 East 300 South",
-      "city": "Salt Lake City",
-      "state": "Utah",
-      "zip": "84104"
+      "city": "Layton"
     }
   },
   {
-    "first_name": "Daniel",
-    "last_name": "Martinez",
-    "email": "daniel.martinez@example.com",
-    "event_name": "Summer Night Market",
-    "start_date": "2025-08-05T00:00:00.000Z",
-    "end_date": "2025-08-06T00:00:00.000Z",
-    "atms": 3,
-    "description": "3 ATMs needed at different corners of the night market for convenience.",
-    "phone_number": "8012223344",
-    "status": "pending",
+    "firstName": "Charlie",
+    "lastName": "Brown",
+    "status": "PENDING",
     "address": {
-      "street": "700 South Main Street",
-      "city": "Salt Lake City",
-      "state": "Utah",
-      "zip": "84105"
+      "city": "Orem"
     }
   },
   {
-    "first_name": "Jessica",
-    "last_name": "Reed",
-    "email": "jessica.reed@example.com",
-    "event_name": "Oktoberfest Celebration",
-    "start_date": "2025-09-18T00:00:00.000Z",
-    "end_date": "2025-09-19T00:00:00.000Z",
-    "atms": 1,
-    "description": "1 ATM needed near the main beer garden for attendee use.",
-    "phone_number": "8016667890",
-    "status": "completed",
+    "firstName": "Diana",
+    "lastName": "Miller",
+    "status": "APPROVED",
     "address": {
-      "street": "900 East 400 South",
-      "city": "Salt Lake City",
-      "state": "Utah",
-      "zip": "84106"
+      "city": "St. George"
     }
   }
 ]

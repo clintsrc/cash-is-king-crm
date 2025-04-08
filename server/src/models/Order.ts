@@ -10,9 +10,9 @@ export interface OrderDocument extends Document {
 
 export enum OrderStatus {
     PENDING = 'PENDING',
-    APPROVED = 'APPROVED',
+    SCHEDULED = 'SCHEDULED',
     DENIED = 'DENIED',
-    COMPLETED = 'COMPLETED'
+    PAST = 'PAST'
 }
 
 export interface Address {

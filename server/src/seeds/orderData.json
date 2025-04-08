@@ -10,7 +10,7 @@
   {
     "firstName": "Jane",
     "lastName": "Smith",
-    "status": "APPROVED",
+    "status": "SCHEDULED",
     "address": {
       "city": "Salt Lake City"
     }
@@ -26,7 +26,7 @@
   {
     "firstName": "Bob",
     "lastName": "Williams",
-    "status": "COMPLETED",
+    "status": "PAST",
     "address": {
       "city": "Layton"
     }
@@ -42,7 +42,7 @@
   {
     "firstName": "Diana",
     "lastName": "Miller",
-    "status": "APPROVED",
+    "status": "SCHEDULED",
     "address": {
       "city": "St. George"
     }

@@ -1,9 +1,12 @@
 import db from '../config/connection.js';
 import cleanDb from './cleanDB.js';
-import { User } from '../models/index.js';
+import { User, Order } from '../models/index.js';
+
 import bcrypt from 'bcrypt';
 import { signToken } from '../utils/auth.js';
+
 import userData from './userData.json' with { type: 'json' };
+import orderData from './orderData.json' with { type: 'json' };
 
 async function seedDatabase() {
   try {
@@ -31,8 +34,12 @@ async function seedDatabase() {
 
     // Insert the hashed user data into the database
     await User.insertMany(hashedUserData); // Seed the user data
-
     console.log('Users seeded!');
+
+    // Insert the order data into the database
+    await Order.insertMany(orderData); // Seed the user data
+    console.log('Orders seeded!');
+
     process.exit(0); // Exit the process after seeding
   } catch (error) {
     console.error('Error in database seeding:', error);

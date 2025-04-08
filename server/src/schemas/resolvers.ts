@@ -71,7 +71,7 @@ interface Context {
 }
 
 const resolvers = {
-  // Modification to the DATE scalar type so that it outputs in MM/DD/YYYY format.
+  // Modification to the DATE scalar type so that it outputs in MM/DD/YYYY format...
   Date: new GraphQLScalarType({
     name: 'Date',
     description: 'Custom scalar for Date objects',

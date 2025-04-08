@@ -8,20 +8,10 @@
 name: Lint
 
 on:
-  # catch lint errors applied to a branch
-  push:
-    branches:
-      - "**"
   # catch any attempts to merge branches that have lint errors
   pull_request:
     branches:
       - "**"
-
-concurrency:
-  # Filtering on the current branch ref helps avoid concurrency
-  group: ${{ github.ref }}
-  # Cancel running lint jobs
-  cancel-in-progress: true
 
 jobs:
   lint:
@@ -37,7 +27,7 @@ jobs:
           node-version: "22"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run ESLint
         run: npm run lint

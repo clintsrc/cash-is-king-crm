@@ -3,10 +3,11 @@
     "client/src",
     "server/src",
     "package.json",
+    "dist",
     "tsconfig.json"
   ],
   "ext": "ts,json,js,html",
-  "ignore": ["node_modules", "dist"],
+  "ignore": ["node_modules"],
   "execMap": {
     "ts": "ts-node"
   },

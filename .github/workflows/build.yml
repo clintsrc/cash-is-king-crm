@@ -1,0 +1,24 @@
+name: Run Build
+
+on:
+  # Trigger for branch update
+  push:
+    branches:
+      - "**"
+
+jobs:
+
+  build:
+    name: Checking Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compile
+        # TypeScript transpile
+        run: npm run build

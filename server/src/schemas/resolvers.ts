@@ -6,11 +6,41 @@
  * Uses Mongoose models to fetch, modify, and return data based on client requests.
  *
  */
-
-import { User } from '../models/index.js';
+import { GraphQLScalarType, Kind } from 'graphql';
+import { User, Order } from '../models/index.js';
 import { signToken, AuthenticationError } from '../utils/auth.js';
+// Adjust the path to your Order model
+
 
 // Define interfaces for mutation arguments
+
+interface OrderArgs {
+  id: string;
+}
+
+interface CreateOrderArgs {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  eventName: string;
+  description: string;
+  atmCount: number;
+  startDate: Date;
+  endDate: Date;
+  status: string;
+  address: {
+    city: string;
+    street: string;
+    state: string;
+    zip: string;
+  }
+}
+
+interface UpdateStatusArgs {
+  id: string;
+  status: string;
+}
 
 // Queries
 interface UserArgs {
@@ -42,6 +72,32 @@ interface Context {
 }
 
 const resolvers = {
+  // Modification to the DATE scalar type so that it outputs in MM/DD/YYYY format...
+  Date: new GraphQLScalarType({
+    name: 'Date',
+    description: 'Custom scalar for Date objects',
+    serialize(value) {
+      // Convert outgoing Date to MM/DD/YYYY format
+      if (value instanceof Date) {
+        const month = (value.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+        const day = value.getDate().toString().padStart(2, '0');
+        const year = value.getFullYear();
+        return `${month}/${day}/${year}`;
+      }
+      return null;
+    },
+    parseValue(value) {
+      // Convert incoming MM/DD/YYYY string to Date
+      return typeof value === 'string' ? new Date(value) : null;
+    },
+    parseLiteral(ast) {
+      // Convert hardcoded AST string to Date
+      if (ast.kind === Kind.STRING) {
+        return new Date(ast.value);
+      }
+      return null;
+    },
+  }),
   /***
    * Queries
    */
@@ -62,7 +118,17 @@ const resolvers = {
       // If the user is not authenticated, throw an AuthenticationError
       throw new AuthenticationError('Could not authenticate user.');
     },
+
+    orders: async () => {
+      return await Order.find();
+    },
+
+    order: async (_parent: unknown, {id}: OrderArgs) => {
+      return await Order.findById(id);
+    }
   },
+
+
 
   /***
    * Mutations
@@ -114,7 +180,43 @@ const resolvers = {
         throw new AuthenticationError(`Login failed ${error}`);
       }
     },
+
+    orderCreate: async (_parent: unknown, {input}: {input: CreateOrderArgs}) => {
+      try {
+        const {firstName, lastName, email, phoneNumber, eventName, description, atmCount, startDate, endDate, status, address} = input;
+        const order = new Order({firstName, lastName, email, phoneNumber, eventName, description, atmCount, startDate, endDate, status, address});
+        return await order.save();
+      }
+      catch(error) {
+        throw new Error(`ERROR CREATING ORDER: ${error}`);
+      }
+    },
+
+    orderDelete: async (_parent: unknown, {id}: {id: string}) => {
+      try {
+        const order = await Order.findByIdAndDelete(id);
+        if (!order) {
+          throw new Error('ORDER NOT FOUND FOR DELETION');
+        }
+        return true;
+      } catch(error) {
+          throw new Error(`Unable TO DELETE ORDER:${error}`);
+      }
+    },
+
+    orderUpdate: async (_parent: unknown, {id, status}: UpdateStatusArgs ) => {
+      try {
+        const order = await Order.findByIdAndUpdate(id, { status }, { new: true });
+        if (!order) {
+          throw new Error('ORDER NOT FOUND FOR UPDATING');
+        }
+        return order;
+      } catch(error) {
+          throw new Error(`Unable TO UPDATE ORDER:${error}`);
+      }
+    }
   }, // end mutations
 }; // end resolvers
 
 export default resolvers;
+

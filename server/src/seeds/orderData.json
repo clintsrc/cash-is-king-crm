@@ -1,0 +1,110 @@
+[
+  {
+    "firstName": "Alice",
+    "lastName": "Nguyen",
+    "email": "alice.nguyen@example.com",
+    "phoneNumber": "801-555-1234",
+    "eventName": "Spring Fundraiser",
+    "description": "Annual spring donation event",
+    "atmCount": "3",
+    "startDate": "04-07-2025",
+    "endDate": "04-11-2025",
+    "status": "SCHEDULED",
+    "address": {
+      "city": "Provo",
+      "street": "123 Elm St",
+      "state": "UT",
+      "zip": "84601"
+    }
+  },
+  {
+    "firstName": "Brian",
+    "lastName": "Turner",
+    "email": "brian.turner@example.com",
+    "phoneNumber": "385-789-2345",
+    "eventName": "Job Fair",
+    "description": "Community hiring event",
+    "atmCount": "1",
+    "startDate": "04-08-2025",
+    "endDate": "04-12-2025",
+    "status": "DENIED",
+    "address": {
+      "city": "Provo",
+      "street": "45 Maple Ave",
+      "state": "UT",
+      "zip": "84604"
+    }
+  },
+  {
+    "firstName": "Carmen",
+    "lastName": "Lopez",
+    "email": "carmen.lopez@example.com",
+    "phoneNumber": "435-222-9876",
+    "eventName": "Health Outreach",
+    "description": "Free community health screening",
+    "atmCount": "5",
+    "startDate": "04-10-2025",
+    "endDate": "04-15-2025",
+    "status": "PENDING",
+    "address": {
+      "city": "Provo",
+      "street": "22 Canyon Rd",
+      "state": "UT",
+      "zip": "84606"
+    }
+  },
+  {
+    "firstName": "Derek",
+    "lastName": "Smith",
+    "email": "derek.smith@example.com",
+    "phoneNumber": "801-321-0000",
+    "eventName": "Outdoor Market",
+    "description": "Local vendors and food trucks",
+    "atmCount": "2",
+    "startDate": "04-06-2025",
+    "endDate": "04-10-2025",
+    "status": "PAST",
+    "address": {
+      "city": "Provo",
+      "street": "600 E Center St",
+      "state": "UT",
+      "zip": "84603"
+    }
+  },
+  {
+    "firstName": "Emily",
+    "lastName": "Zhang",
+    "email": "emily.zhang@example.com",
+    "phoneNumber": "385-111-2233",
+    "eventName": "Tech Demo Day",
+    "description": "Showcasing local startups",
+    "atmCount": "4",
+    "startDate": "04-09-2025",
+    "endDate": "04-13-2025",
+    "status": "SCHEDULED",
+    "address": {
+      "city": "Provo",
+      "street": "88 Innovation Way",
+      "state": "UT",
+      "zip": "84602"
+    }
+  },
+  {
+    "firstName": "Frank",
+    "lastName": "Reed",
+    "email": "frank.reed@example.com",
+    "phoneNumber": "801-444-5678",
+    "eventName": "Veterans Memorial",
+    "description": "Ceremony honoring veterans",
+    "atmCount": "1",
+    "startDate": "04-07-2025",
+    "endDate": "04-11-2025",
+    "status": "PENDING",
+    "address": {
+      "city": "Provo",
+      "street": "9 Patriot Blvd",
+      "state": "UT",
+      "zip": "84605"
+    }
+  }
+]

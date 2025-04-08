@@ -21,6 +21,61 @@ const typeDefs = `
     password: String!
   }
 
+  enum OrderStatus {
+    PENDING
+    SCHEDULED
+    DENIED
+    PAST
+  }
+
+  type Address {
+    city: String!
+    street: String!
+    state: String!
+    zip: String!
+  }
+
+  input AddressInput {
+    city: String!
+    street: String!
+    state: String!
+    zip: String!
+  }
+
+  scalar Date
+
+  type Order{
+    _id: ID
+    firstName: String!
+    lastName: String!
+    fullName: String!
+    email: String!
+    phoneNumber: String!
+    eventName: String!
+    description: String!
+    atmCount: String!
+    startDate: Date!
+    endDate: Date!
+    status: OrderStatus!
+    address: Address!
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
+  input OrderInput{
+    firstName: String!
+    lastName: String!
+    email: String!
+    phoneNumber: String!
+    eventName: String!
+    description: String!
+    atmCount: String!
+    startDate: Date!
+    endDate: Date!
+    status: OrderStatus
+    address: AddressInput!
+  }
+
   type Auth {
     token: ID!
     user: User
@@ -30,6 +85,9 @@ const typeDefs = `
   type Query {
     user(username: String!): User
     me: User
+
+    orders: [Order!]!
+    order(id: ID!): Order
   }
 
   ##############  Mutations
@@ -39,6 +97,15 @@ const typeDefs = `
 
     # Login user and return JWT token (signin)
     loginUser(email: String!, password: String!): Auth
+
+    # Create an Order
+    orderCreate(input: OrderInput!): Order!
+
+    # Delete an Order
+    orderDelete(id: ID!): Boolean!
+
+    #Update an Order
+    orderUpdate(id: ID!, status: OrderStatus!): Order
   }
 `;
 

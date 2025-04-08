@@ -31,12 +31,14 @@ const typeDefs = `
   type Address {
     city: String!
     street: String!
+    state: String!
     zip: String!
   }
 
   input AddressInput {
     city: String!
     street: String!
+    state: String!
     zip: String!
   }
 

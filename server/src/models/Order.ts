@@ -25,6 +25,7 @@ export enum OrderStatus {
 export interface Address {
     city: string;
     street: string;
+    state: string;
     zip: number;
 }
 
@@ -42,6 +43,13 @@ const addressSchema = new Schema<Address>(
             required: true,
             minlength: 1,
             maxlength: 280,
+            trim: true
+        },
+        state: {
+            type: String,
+            required: true,
+            minlength: 2,
+            maxlength: 2,
             trim: true
         },
         zip: {

@@ -6,13 +6,13 @@
  * Displays a modal dialog for user authentication (login and signup options).
  *
  */
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Navbar, Nav, Container, Modal, Tab } from "react-bootstrap";
-import SignUpForm from "./SignupForm";
-import LoginForm from "./LoginForm";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+import SignUpForm from './SignupForm';
+import LoginForm from './LoginForm';
 
-import Auth from "../utils/auth";
+import Auth from '../utils/auth';
 
 const AppNavbar = () => {
   // set modal display state
@@ -36,6 +36,9 @@ const AppNavbar = () => {
                 <>
                   <Nav.Link as={Link} to="/todo">
                     TODO
+                  </Nav.Link>
+                  <Nav.Link as={Link} to="/admin">
+                    Admin
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>

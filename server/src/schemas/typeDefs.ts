@@ -30,26 +30,46 @@ const typeDefs = `
 
   type Address {
     city: String!
+    street: String!
+    zip: String!
   }
 
   input AddressInput {
     city: String!
+    street: String!
+    zip: String!
   }
+
+  scalar Date
 
   type Order{
     _id: ID
     firstName: String!
     lastName: String!
     fullName: String!
+    email: String!
+    phoneNumber: String!
+    eventName: String!
+    description: String!
+    atmCount: String!
+    startDate: Date!
+    endDate: Date!
     status: OrderStatus!
     address: Address!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: Date!
+    updatedAt: Date!
   }
 
   input OrderInput{
     firstName: String!
     lastName: String!
+    email: String!
+    phoneNumber: String!
+    eventName: String!
+    description: String!
+    atmCount: String!
+    startDate: Date!
+    endDate: Date!
     status: OrderStatus
     address: AddressInput!
   }

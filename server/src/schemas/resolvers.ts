@@ -6,7 +6,7 @@
  * Uses Mongoose models to fetch, modify, and return data based on client requests.
  *
  */
-
+import { GraphQLScalarType, Kind } from 'graphql';
 import { User, Order } from '../models/index.js';
 import { signToken, AuthenticationError } from '../utils/auth.js';
 // Adjust the path to your Order model
@@ -21,9 +21,18 @@ interface OrderArgs {
 interface CreateOrderArgs {
   firstName: string;
   lastName: string;
+  email: string;
+  phoneNumber: string;
+  eventName: string;
+  description: string;
+  atmCount: number;
+  startDate: Date;
+  endDate: Date;
   status: string;
   address: {
     city: string;
+    street: string;
+    zip: string;
   }
 }
 
@@ -62,6 +71,32 @@ interface Context {
 }
 
 const resolvers = {
+  // Modification to the DATE scalar type so that it outputs in MM/DD/YYYY format...
+  Date: new GraphQLScalarType({
+    name: 'Date',
+    description: 'Custom scalar for Date objects',
+    serialize(value) {
+      // Convert outgoing Date to MM/DD/YYYY format
+      if (value instanceof Date) {
+        const month = (value.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
+        const day = value.getDate().toString().padStart(2, '0');
+        const year = value.getFullYear();
+        return `${month}/${day}/${year}`;
+      }
+      return null;
+    },
+    parseValue(value) {
+      // Convert incoming MM/DD/YYYY string to Date
+      return typeof value === 'string' ? new Date(value) : null;
+    },
+    parseLiteral(ast) {
+      // Convert hardcoded AST string to Date
+      if (ast.kind === Kind.STRING) {
+        return new Date(ast.value);
+      }
+      return null;
+    },
+  }),
   /***
    * Queries
    */
@@ -147,8 +182,8 @@ const resolvers = {
 
     orderCreate: async (_parent: unknown, {input}: {input: CreateOrderArgs}) => {
       try {
-        const {firstName, lastName, status, address} = input;
-        const order = new Order({firstName, lastName, status, address});
+        const {firstName, lastName, email, phoneNumber, eventName, description, atmCount, startDate, endDate, status, address} = input;
+        const order = new Order({firstName, lastName, email, phoneNumber, eventName, description, atmCount, startDate, endDate, status, address});
         return await order.save();
       }
       catch(error) {
@@ -183,3 +218,4 @@ const resolvers = {
 }; // end resolvers
 
 export default resolvers;
+

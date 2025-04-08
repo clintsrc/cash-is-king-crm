@@ -23,9 +23,9 @@ const typeDefs = `
 
   enum OrderStatus {
     PENDING
-    APPROVED
+    SCHEDULED
     DENIED
-    COMPLETED
+    PAST
   }
 
   type Address {
@@ -40,6 +40,7 @@ const typeDefs = `
     _id: ID
     firstName: String!
     lastName: String!
+    fullName: String!
     status: OrderStatus!
     address: Address!
     createdAt: String!

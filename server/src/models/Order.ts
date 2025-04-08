@@ -62,6 +62,11 @@ const orderSchema = new Schema<OrderDocument>(
         timestamps: true
     }
 );
+
+orderSchema.virtual('fullName').get(function(this: OrderDocument) {
+    return `${this.firstName} ${this.lastName}`;
+});
+
 const Order =  model<OrderDocument>('Order', orderSchema);
 
 export default Order;

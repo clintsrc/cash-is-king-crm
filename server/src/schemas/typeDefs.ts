@@ -53,7 +53,7 @@ const typeDefs = `
     phoneNumber: String!
     eventName: String!
     description: String!
-    atmCount: String!
+    atmCount: Int!
     startDate: Date!
     endDate: Date!
     status: OrderStatus!
@@ -69,7 +69,7 @@ const typeDefs = `
     phoneNumber: String!
     eventName: String!
     description: String!
-    atmCount: String!
+    atmCount: Int!
     startDate: Date!
     endDate: Date!
     status: OrderStatus

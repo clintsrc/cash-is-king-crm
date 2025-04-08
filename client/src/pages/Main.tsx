@@ -12,7 +12,7 @@ const Main = () => {
     startDate: "",
     endDate: "",
     description: "",
-    phone: "",
+    phoneNumber: "",
     email: "",
     atmCount: "",
     address: {
@@ -119,12 +119,12 @@ const Main = () => {
           />
         </div>
         <div>
-          <label htmlFor="phone">Phone</label>
+          <label htmlFor="phoneNumber">Phone</label>
           <input
             type="tel"
-            id="phone"
+            id="phoneNumber"
             placeholder="123-456-7890"
-            value={formData.phone}
+            value={formData.phoneNumber}
             onChange={handleInputChange}
           />
         </div>

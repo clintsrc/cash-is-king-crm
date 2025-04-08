@@ -25,6 +25,7 @@ export enum OrderStatus {
 export interface Address {
     city: string;
     street: string;
+    state: string;
     zip: number;
 }
 
@@ -42,6 +43,13 @@ const addressSchema = new Schema<Address>(
             required: true,
             minlength: 1,
             maxlength: 280,
+            trim: true
+        },
+        state: {
+            type: String,
+            required: true,
+            minlength: 2,
+            maxlength: 2,
             trim: true
         },
         zip: {
@@ -97,7 +105,7 @@ const orderSchema = new Schema<OrderDocument>(
             type: String,
             required: true,
             minlength: 1,
-            maxlength: 1000, //this is roughly between 150 and 200 words. 
+            maxlength: 1000, //this is roughly between 150 and 200 words.
             trim: true
         },
         atmCount:{
@@ -131,6 +139,11 @@ const orderSchema = new Schema<OrderDocument>(
         timestamps: true
     }
 );
+
+orderSchema.virtual('fullName').get(function(this: OrderDocument) {
+    return `${this.firstName} ${this.lastName}`;
+});
+
 const Order =  model<OrderDocument>('Order', orderSchema);
 
 export default Order;

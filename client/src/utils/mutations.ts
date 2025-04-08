@@ -1,16 +1,4 @@
-/*
- * Mutations
- *
- * Defines the mutations for the GraphQL API. Modifies data with create, update, and
- *  delete actions
- *
- * Provides GraphQL mutations for managing users (signup and login)
- *
- */
-
-import { gql } from "@apollo/client";
-
-
+import { gql } from '@apollo/client';
 /**
  * User management
  */
@@ -36,6 +24,64 @@ export const LOGIN_USER = gql`
         username
         email
       }
+    }
+  }
+`;
+/**
+ * Order management
+ */
+export const CREATE_ORDER = gql`
+  mutation orderCreate($input: OrderInput!) {
+    orderCreate(input: $input) {
+      _id
+      eventName
+      description
+      firstName
+      lastName
+      phoneNumber
+      email
+      status
+      atmCount
+      startDate
+      endDate
+      address {
+        city
+        street
+        state
+        zip
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const DELETE_ORDER = gql`
+  mutation orderDelete($id: ID!) {
+    orderDelete(id: $id)
+  }
+`;
+export const UPDATE_ORDER_STATUS = gql`
+  mutation orderUpdate($id: ID!, $status: OrderStatus!) {
+    orderUpdate(id: $id, status: $status) {
+      _id
+      eventName
+      description
+      firstName
+      lastName
+      phoneNumber
+      email
+      status
+      atmCount
+      startDate
+      endDate
+      address {
+        city
+        street
+        state
+        zip
+      }
+      createdAt
+      updatedAt
     }
   }
 `;

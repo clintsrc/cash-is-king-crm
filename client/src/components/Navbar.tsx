@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal } from 'react-bootstrap';
 import LoginForm from './LoginForm';
 import Auth from '../utils/auth';
+import './Navbar.css';
 
 const AppNavbar = () => {
   // set modal display state
@@ -18,11 +19,8 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar bg="light" variant="light" expand="lg">
         <Container fluid className="d-flex justify-content-between">
-          <Navbar.Brand as={Link} to="/">
-            Cash is King ATM
-          </Navbar.Brand>
           <Nav>
             <Nav.Link as={Link} to="/">
               Home

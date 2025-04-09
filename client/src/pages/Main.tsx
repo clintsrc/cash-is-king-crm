@@ -94,6 +94,13 @@ const Main = () => {
 
   return (
     <Container>
+      <div className="image-container">
+        <img
+          src="./src/assets/CIK-Full.png"
+          alt="Cash is King Logo"
+          className="cik-image"
+        />
+      </div>
       <h2>Rent an ATM</h2>
       <form onSubmit={handleSubmit}>
         <div>

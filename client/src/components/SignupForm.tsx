@@ -57,13 +57,10 @@ const SignupForm: React.FC<SignUpFormProps> = ({ handleModalClose }) => {
 
     try {
       // Executes the ADD_USER mutation using form state data as input variables
-      const { data } = await addUser({
+      await addUser({
         variables: { input: { ...formState } },
       });
 
-      // Extract JWT token from the response and store it in Auth for authentication
-      const { token } = data.addUser;
-      Auth.login(token);
 
       handleModalClose(); // Close the modal after a successful signup
     } catch (err) {

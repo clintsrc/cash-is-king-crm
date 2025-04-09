@@ -27,7 +27,14 @@ jobs:
     name: Checking Tests
     runs-on: ubuntu-latest
 
-    # Run a build, start the dev server, run cypress tests
+    # Setup a mongodb server
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: --health-cmd "exit 0" --health-interval 10s --health-timeout 5s --health-retries 3
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -39,12 +46,13 @@ jobs:
         # TypeScript transpile
         run: npm run build
 
-      - name: Compile
+      - name: Seed the database
         run: npm run seed
 
-      - name: Run Cypress component tests
-        run: npm run test:comp
-        continue-on-error: true # Continue on in order to report failed tests
+      - name: Start MongoDB
+        run: |
+          # Ensure MongoDB is up and running before proceeding
+          docker ps
 
       - name: Start the client
         run: npm run client:dev &  # Background the client process
@@ -52,7 +60,12 @@ jobs:
       - name: Start the server
         env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          MONGODB_URI: 'mongodb://127.0.0.1:27017/cash_is_king_db'
         run: npm run start &  # Background the server process
+
+      - name: Run Cypress component tests
+        run: npm run test:comp
+        continue-on-error: true # Continue on in order to report failed tests
 
       - name: Run Cypress E2E tests
         run: npx cypress run --e2e --headless
@@ -60,7 +73,6 @@ jobs:
 
       # Save the downloadable reports artifact for any further investigation
       - name: Upload Cypress component report artifacts
-        # Upload the component report even if tests fail
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -68,7 +80,6 @@ jobs:
           path: cypress/reports/component/mochawesome.json
 
       - name: Upload Cypress E2E report artifacts
-        # Upload the E2E report even if tests fail
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -76,46 +87,34 @@ jobs:
           path: cypress/reports/e2e/mochawesome.json
 
       - name: Display Cypress component test Job Summary
-        # Show the component test report even if tests fail
         if: always()
         run: |
-          # Parse the component test report
           COMPONENT_RESULTS=$(cat cypress/reports/component/mochawesome.json)
-
-          # Extract the results from the component report
           COMPONENT_PASSED=$(echo $COMPONENT_RESULTS | jq '.stats.passes')
           COMPONENT_FAILED=$(echo $COMPONENT_RESULTS | jq '.stats.failures')
           COMPONENT_PENDING=$(echo $COMPONENT_RESULTS | jq '.stats.pending')
           COMPONENT_SKIPPED=$(echo $COMPONENT_RESULTS | jq '.stats.skipped')
           COMPONENT_DURATION=$(echo $COMPONENT_RESULTS | jq '.stats.duration')
 
-          # Format the duration (convert to seconds and round to 3 decimal places)
           COMPONENT_DURATION=$(echo "scale=3; $COMPONENT_DURATION / 1000" | bc)
 
-          # Write the component report summary to the GitHub Actions job summary in a table format
           echo "## Cypress Component Test Results" >> $GITHUB_STEP_SUMMARY
           echo "| Result  | Passed ✅ | Failed ❌ | Pending 🤚 | Skipped ↩️ | Duration 🕗 |" >> $GITHUB_STEP_SUMMARY
           echo "|---------|-----------|---------|---------|---------|------------|" >> $GITHUB_STEP_SUMMARY
           echo "| Component Tests | $COMPONENT_PASSED   | $COMPONENT_FAILED | $COMPONENT_PENDING | $COMPONENT_SKIPPED | ${COMPONENT_DURATION}s |" >> $GITHUB_STEP_SUMMARY
 
       - name: Display Cypress E2E test Job Summary
-        # Show the summary for E2E tests even if tests fail
         if: always()
         run: |
-          # Parse the E2E test report
           E2E_RESULTS=$(cat cypress/reports/e2e/mochawesome.json)
-
-          # Extract the results from the E2E report
           E2E_PASSED=$(echo $E2E_RESULTS | jq '.stats.passes')
           E2E_FAILED=$(echo $E2E_RESULTS | jq '.stats.failures')
           E2E_PENDING=$(echo $E2E_RESULTS | jq '.stats.pending')
           E2E_SKIPPED=$(echo $E2E_RESULTS | jq '.stats.skipped')
           E2E_DURATION=$(echo $E2E_RESULTS | jq '.stats.duration')
 
-          # Format the duration (convert to seconds and round to 3 decimal places)
           E2E_DURATION=$(echo "scale=3; $E2E_DURATION / 1000" | bc)
 
-          # Write the E2E test results to the GitHub Actions job summary in a table format
           echo "## Cypress E2E Test Results" >> $GITHUB_STEP_SUMMARY
           echo "| Result  | Passed ✅ | Failed ❌ | Pending 🤚 | Skipped ↩️ | Duration 🕗 |" >> $GITHUB_STEP_SUMMARY
           echo "|---------|-----------|---------|---------|---------|------------|" >> $GITHUB_STEP_SUMMARY
@@ -123,7 +122,6 @@ jobs:
 
       # Fail the job if there are test failures
       - name: Fail if tests failed
-        # Run even if tests fail in order to fail the check
         if: always()
         run: |
           COMPONENT_RESULTS=$(cat cypress/reports/component/mochawesome.json)

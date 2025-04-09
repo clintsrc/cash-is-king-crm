@@ -1,0 +1,163 @@
+/* Admin.css */
+
+/* Reset some basic styling for consistency */
+* {
+    box-sizing: border-box;
+  }
+  
+  /* Global font settings */
+  body, h2, p, button {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Header styling */
+  h2 {
+    margin-top: 2rem;
+    text-align: center;
+    color: #444;
+  }
+  
+  /* Container for the status buttons */
+  .top-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 10px;
+  }
+  
+  /* Status button base styling */
+  .top-buttons button {
+    font-size: 1.25rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7; /* Light grey base */
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  
+  /* Hover state for better interactivity */
+  .top-buttons button:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+  }
+  
+  /* Active state for a status button */
+  .top-buttons button.active {
+    background-color: #b0b0b0; /* Darker grey for active state */
+    border-color: #999;
+    color: #fff;
+  }
+  
+  /* Card styling for a more refined look */
+  .card {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 auto;
+    transition: transform 0.2s ease;
+    background-color: #fff;
+  }
+  
+  /* Add a slight scale-up effect when hovering over the card */
+  .card:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Card header: styling the top section with the Deny button */
+  .card-header {
+    background-color: #f1f1f1;
+    border: none;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 15px;
+  }
+  
+  /* Card body: spacing and text improvements */
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+  
+  .card-text {
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+  
+  /* Card footer: separate and clearly laid out info and action buttons */
+  .card-footer {
+    background-color: #fafafa;
+    border-top: 1px solid #eee;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  /* Buttons within the card (Info, Approve, Deny) */
+  .card-footer button,
+  .card-header button {
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  /* Deny button specific styling */
+  .card-header button {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+  
+  /* Example additional button customizations - override default Bootstrap colors if needed */
+  .btn-secondary {
+    background-color: #777;
+    border-color: #666;
+    color: #fff;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #666;
+    border-color: #555;
+  }
+  
+  .btn-primary {
+    background-color: #5a5a5a;
+    border-color: #4a4a4a;
+    color: #fff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #4a4a4a;
+    border-color: #3a3a3a;
+  }
+  
+  .btn-danger {
+    background-color: #e57373;
+    border-color: #e57373;
+    color: #fff;
+  }
+  
+  .btn-danger:hover {
+    background-color: #ef5350;
+    border-color: #ef5350;
+  }
+  
+  /* Responsive adjustments if needed */
+  @media (max-width: 768px) {
+    .top-buttons {
+      flex-direction: column;
+    }
+  
+    .top-buttons button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }

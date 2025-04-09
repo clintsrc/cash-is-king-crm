@@ -9,7 +9,7 @@
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import Admin from "./pages/Admin.js";
 import App from "./App.jsx";
 import Main from "./pages/Main";
 
@@ -29,6 +29,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Main />,
+      },
+      {
+        path: "admin",
+        element: <Admin />,
       },
     ],
   },

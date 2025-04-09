@@ -104,22 +104,17 @@ const resolvers = {
    * Queries
    */
   Query: {
-    // return the user's information
-    user: async (_parent: unknown, { username }: UserArgs) => {
-      console.log('user Received input:', username);
-      return User.findOne({ username });
-    },
 
-    // Get the authenticated user's information from the context payload
-    me: async (_parent: unknown, _args: unknown, context: Context) => {
-      /* If the user is authenticated, find their user information */
-      console.log('me Received for user:', context.user?._id);
-      if (context.user) {
-        return User.findOne({ _id: context.user._id });
-      }
-      // If the user is not authenticated, throw an AuthenticationError
-      throw new AuthenticationError('Could not authenticate user.');
-    },
+    // // Get the authenticated user's information from the context payload
+    // me: async (_parent: unknown, _args: unknown, context: Context) => {
+    //   /* If the user is authenticated, find their user information */
+    //   console.log('me Received for user:', context.user?._id);
+    //   if (context.user) {
+    //     return User.findOne({ _id: context.user._id });
+    //   }
+    //   // If the user is not authenticated, throw an AuthenticationError
+    //   throw new AuthenticationError('Could not authenticate user.');
+    // },
 
     orders: async () => {
       return await Order.find();

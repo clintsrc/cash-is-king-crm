@@ -46,9 +46,6 @@ jobs:
         # TypeScript transpile
         run: npm run build
 
-      - name: Seed the database
-        run: npm run seed
-
       - name: Start MongoDB
         run: |
           # Ensure MongoDB is up and running before proceeding
@@ -62,6 +59,9 @@ jobs:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           MONGODB_URI: 'mongodb://127.0.0.1:27017/cash_is_king_db'
         run: npm run start &  # Background the server process
+
+      - name: Seed the database
+        run: npm run seed
 
       - name: Run Cypress component tests
         run: npm run test:comp

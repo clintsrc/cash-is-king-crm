@@ -15,6 +15,8 @@ export interface OrderDocument extends Document {
     address: Address;
 }
 
+/* We chose to use an enum for the order status, not a collection or union, because
+   the values are known and not likely to change and an enum is easier to manage. */
 export enum OrderStatus {
     PENDING = 'PENDING',
     SCHEDULED = 'SCHEDULED',

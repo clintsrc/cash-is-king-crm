@@ -3,12 +3,14 @@ form {
   max-width: 800px;
   margin: 2rem auto;
   padding: 30px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  background-color: #75a37f; /* Updated background color */
+  border: 10px solid #000000;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: rgb(0, 0, 0); /* Ensure text is readable on the green background */
 }
 
+/* Style the input fields */
 /* Style the input fields */
 input,
 textarea {
@@ -19,6 +21,7 @@ textarea {
   border-radius: 4px;
   font-size: 16px;
   box-sizing: border-box;
+  background-color: #e5e5e5; /* Set the background color to grey */
 }
 
 /* Add hover and focus effects to inputs */
@@ -27,14 +30,16 @@ textarea:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  background-color: #f4f4f4; /* Slightly darker grey on focus */
 }
 
+/* Style the heading */
 /* Style the heading */
 h2 {
   text-align: center;
   margin-bottom: 30px;
   font-size: 32px;
-  color: #333;
+  color: black; /* Updated to black text */
   font-weight: bold;
 }
 
@@ -48,14 +53,15 @@ label {
   display: block;
   margin-bottom: 8px;
   font-weight: 500;
-  color: #444;
+  color: black; /* Ensure labels are readable */
+  font-size: 20px; /* Increased font size for labels */
 }
 
 /* Style the submit button */
 button[type='submit'] {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: #2e8130;
   color: white;
   border: none;
   border-radius: 4px;
@@ -66,5 +72,20 @@ button[type='submit'] {
 }
 
 button[type='submit']:hover {
-  background-color: #0056b3;
+  background-color: #8fec88;
+}
+
+/* Style the image container */
+.image-container {
+  text-align: center; /* Center the image horizontally */
+  margin-bottom: 20px; /* Add some spacing below the image */
+}
+
+/* Style the image */
+.cik-image {
+  width: 80%; /* Make the image fill 80% of the screen horizontally */
+  max-width: 1200px; /* Optional: Set a maximum width */
+  height: auto; /* Maintain aspect ratio */
+  margin-left: -40px; /* Push the image to the left by 40px */
+  margin-top: 50px;
 }

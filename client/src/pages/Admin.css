@@ -161,3 +161,23 @@
       margin-bottom: 10px;
     }
   }
+
+  .text-center a.btn-link {
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .text-center a.btn-link:hover {
+    text-decoration: underline;
+  }
+  
+  .text-center button.btn-link {
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .text-center button.btn-link:hover {
+    text-decoration: underline;
+  }

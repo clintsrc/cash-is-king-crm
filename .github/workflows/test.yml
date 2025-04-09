@@ -61,6 +61,8 @@ jobs:
         run: npm run start &  # Background the server process
 
       - name: Seed the database
+        env:
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
         run: npm run seed
 
       - name: Run Cypress component tests

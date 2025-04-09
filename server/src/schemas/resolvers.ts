@@ -11,7 +11,6 @@ import { User, Order } from '../models/index.js';
 import { signToken, AuthenticationError } from '../utils/auth.js';
 // Adjust the path to your Order model
 
-
 // Define interfaces for mutation arguments
 
 interface OrderArgs {
@@ -34,7 +33,7 @@ interface CreateOrderArgs {
     street: string;
     state: string;
     zip: string;
-  }
+  };
 }
 
 interface UpdateStatusArgs {
@@ -80,7 +79,10 @@ const resolvers = {
       // Convert outgoing Date to MM/DD/YYYY format
       if (value instanceof Date) {
         const month = (value.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-        const day = value.getDate().toString().padStart(2, '0');
+        const day = value
+          .getDate()
+          .toString()
+          .padStart(2, '0');
         const year = value.getFullYear();
         return `${month}/${day}/${year}`;
       }
@@ -96,7 +98,7 @@ const resolvers = {
         return new Date(ast.value);
       }
       return null;
-    },
+    }
   }),
   /***
    * Queries
@@ -123,12 +125,10 @@ const resolvers = {
       return await Order.find();
     },
 
-    order: async (_parent: unknown, {id}: OrderArgs) => {
+    order: async (_parent: unknown, { id }: OrderArgs) => {
       return await Order.findById(id);
     }
   },
-
-
 
   /***
    * Mutations
@@ -181,42 +181,71 @@ const resolvers = {
       }
     },
 
-    orderCreate: async (_parent: unknown, {input}: {input: CreateOrderArgs}) => {
+    orderCreate: async (
+      _parent: unknown,
+      { input }: { input: CreateOrderArgs }
+    ) => {
       try {
-        const {firstName, lastName, email, phoneNumber, eventName, description, atmCount, startDate, endDate, status, address} = input;
-        const order = new Order({firstName, lastName, email, phoneNumber, eventName, description, atmCount, startDate, endDate, status, address});
+        const {
+          firstName,
+          lastName,
+          email,
+          phoneNumber,
+          eventName,
+          description,
+          atmCount,
+          startDate,
+          endDate,
+          status,
+          address
+        } = input;
+        const order = new Order({
+          firstName,
+          lastName,
+          email,
+          phoneNumber,
+          eventName,
+          description,
+          atmCount,
+          startDate,
+          endDate,
+          status,
+          address
+        });
         return await order.save();
-      }
-      catch(error) {
+      } catch (error) {
         throw new Error(`ERROR CREATING ORDER: ${error}`);
       }
     },
 
-    orderDelete: async (_parent: unknown, {id}: {id: string}) => {
+    orderDelete: async (_parent: unknown, { id }: { id: string }) => {
       try {
         const order = await Order.findByIdAndDelete(id);
         if (!order) {
           throw new Error('ORDER NOT FOUND FOR DELETION');
         }
         return true;
-      } catch(error) {
-          throw new Error(`Unable TO DELETE ORDER:${error}`);
+      } catch (error) {
+        throw new Error(`Unable TO DELETE ORDER:${error}`);
       }
     },
 
-    orderUpdate: async (_parent: unknown, {id, status}: UpdateStatusArgs ) => {
+    orderUpdate: async (_parent: unknown, { id, status }: UpdateStatusArgs) => {
       try {
-        const order = await Order.findByIdAndUpdate(id, { status }, { new: true });
+        const order = await Order.findByIdAndUpdate(
+          id,
+          { status },
+          { new: true }
+        );
         if (!order) {
           throw new Error('ORDER NOT FOUND FOR UPDATING');
         }
         return order;
-      } catch(error) {
-          throw new Error(`Unable TO UPDATE ORDER:${error}`);
+      } catch (error) {
+        throw new Error(`Unable TO UPDATE ORDER:${error}`);
       }
     }
-  }, // end mutations
+  } // end mutations
 }; // end resolvers
 
 export default resolvers;
-

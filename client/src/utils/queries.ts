@@ -94,3 +94,26 @@ export const QUERY_ORDER = gql`
     }
   }
 `;
+/**
+ * Update Order Status mutation
+ *
+ * Updates an order's status to APPROVED
+ */
+export const UPDATE_ORDER_STATUS = gql`
+  mutation UpdateOrderStatus($id: ID!, $status: OrderStatus!) {
+    orderUpdate(id: $id, status: $status) {
+      _id
+      status
+    }
+  }
+`;
+/**
+ * Delete Order mutation
+ *
+ * Deletes an order by ID
+ */
+export const DELETE_ORDER = gql`
+  mutation DeleteOrder($id: ID!) {
+    orderDelete(id: $id)
+  }
+`;

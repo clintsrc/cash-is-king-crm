@@ -6,24 +6,31 @@
  *
  */
 
+export enum OrderStatus {
+  PENDING = 'PENDING',
+  SCHEDULED = 'SCHEDULED',
+  DENIED = 'DENIED',
+  PAST = 'PAST'
+}
+
 export interface Order {
-    firstName: string;
-    lastName: string;
-    eventName: string;
-    startDate: Date;
-    endDate: Date;
-    description: string;
-    phoneNumber: string; // Updated from `phone`
-    email: string;
-    atmCount: string; // Updated from `number`
-    createdAt: Date;
-    updatedAt: Date;
-    address: {
-      street: string;
-      city: string;
-      state: string;
-      zip: string;
-    };
-    status: "PENDING" | "SCHEDULED" | "DENIED" | "PAST"; // Updated to match backend enum
-  }
-  
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  eventName: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  atmCount: number;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+  status: OrderStatus;
+  createdAt: string;
+  updatedAt: string;
+}

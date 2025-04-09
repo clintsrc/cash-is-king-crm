@@ -39,6 +39,9 @@ jobs:
         # TypeScript transpile
         run: npm run build
 
+      - name: Compile
+        run: npm run seed
+
       - name: Run Cypress component tests
         run: npm run test:comp
         continue-on-error: true # Continue on in order to report failed tests

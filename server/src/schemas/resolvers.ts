@@ -41,11 +41,6 @@ interface UpdateStatusArgs {
   status: string;
 }
 
-// Queries
-interface UserArgs {
-  username: string;
-}
-
 // Mutations
 interface AddUserArgs {
   // signup
@@ -104,11 +99,6 @@ const resolvers = {
    * Queries
    */
   Query: {
-    // return the user's information
-    user: async (_parent: unknown, { username }: UserArgs) => {
-      console.log('user Received input:', username);
-      return User.findOne({ username });
-    },
 
     // Get the authenticated user's information from the context payload
     me: async (_parent: unknown, _args: unknown, context: Context) => {

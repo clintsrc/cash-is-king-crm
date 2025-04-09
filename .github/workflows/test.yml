@@ -11,7 +11,7 @@
 #   https://github.blog/news-insights/product-news/supercharging-github-actions-with-job-summaries/
 #   https://emojipedia.org/
 #
-name: Run Component Tests
+name: Run Application Tests
 
 on:
   # Trigger for any pull request activity on the develop branch (create, update)
@@ -22,7 +22,7 @@ on:
 jobs:
   cypress-run:
     # Emergency toggle, since these tests were implemented shortly after mvp!
-    if: ${{ false }}
+    if: ${{ true }}
     # This name should be added to GitHub's 'specific checks' branch protection config
     name: Checking Tests
     runs-on: ubuntu-latest

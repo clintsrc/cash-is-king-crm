@@ -1,3 +1,12 @@
+#
+# Build Check
+#
+# Executes a build for any repository push for rapid feedback on any change that
+# causes a failure.
+#
+# The script can be monitored on a pull request's Checks tab
+#
+
 name: Run Build
 
 on:

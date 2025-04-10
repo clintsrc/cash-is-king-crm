@@ -3,13 +3,17 @@ import { mount } from "cypress/react";
 import SignupForm from "../../client/src/components/SignupForm";
 import { LOGIN_USER } from "../../client/src/utils/mutations";
 
+const username: string = "admin";
+const email: string = "admin@test.com";
+const password: string = "password";
+
 const mocks = [
   {
     request: {
       query: LOGIN_USER,
       variables: {
-        username: "test@test.com",
-        password: "test",
+        username: username,
+        password: password,
       },
     },
     result: {
@@ -20,7 +24,7 @@ const mocks = [
           user: {
             __typename: "User",
             id: "1",
-            email: "test@test.com",
+            email: email,
           },
         },
       },
@@ -36,24 +40,24 @@ describe("<SignupForm />", () => {
       </MockedProvider>
     );
 
-    cy.get("input[name='email']").type("test@test.com");
-    cy.get("input[name='password']").type("test");
+    cy.get("input[name='email']").type(email);
+    cy.get("input[name='password']").type(password);
     cy.get("button[type='submit']").should('be.visible');
 
     cy.findByPlaceholderText(/your username/i)
       .should("be.visible")
       .should('be.enabled')
-      .type("test");
+      .type(username);
 
     cy.findByPlaceholderText(/your email address/i)
       .should("be.visible")
       .should('be.enabled')
-      .type("test@test.com");
+      .type(email);
 
     cy.findByPlaceholderText(/your password/i)
       .should("be.visible")
       .should('be.enabled')
-      .type("test");
+      .type(password);
 
     cy.findByText(/submit/i)
       .should("be.visible")

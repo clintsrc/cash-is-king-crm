@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_ORDER } from '../utils/mutations';
+import cikLogo from '../assets/images/CIK-Full.png';
 
 const Main = () => {
   const [formData, setFormData] = useState({
@@ -96,7 +97,8 @@ const Main = () => {
     <Container>
       <div className="image-container">
         <img
-          src="./src/assets/CIK-Full.png"
+          //src="./src/assets/CIK-Full.png"
+          src={cikLogo}
           alt="Cash is King Logo"
           className="cik-image"
         />

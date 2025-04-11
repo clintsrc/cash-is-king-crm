@@ -16,7 +16,6 @@ import type { ChangeEvent, FormEvent } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
-import Auth from "../utils/auth";
 
 // Interface to handle the modal close function passed as a prop
 interface SignUpFormProps {
@@ -57,13 +56,10 @@ const SignupForm: React.FC<SignUpFormProps> = ({ handleModalClose }) => {
 
     try {
       // Executes the ADD_USER mutation using form state data as input variables
-      const { data } = await addUser({
+      await addUser({
         variables: { input: { ...formState } },
       });
 
-      // Extract JWT token from the response and store it in Auth for authentication
-      const { token } = data.addUser;
-      Auth.login(token);
 
       handleModalClose(); // Close the modal after a successful signup
     } catch (err) {

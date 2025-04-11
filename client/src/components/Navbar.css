@@ -1,0 +1,23 @@
+/* Navbar.css */
+.navbar {
+    padding: 0.5rem 1rem; /* Reduce padding */
+    height: 50px; /* Set a shorter height */
+    background-color: white; /* Set background color to white */
+    border-bottom: 1px solid #ddd; /* Optional: Add a subtle border for separation */
+  }
+  
+  .navbar-brand,
+  .nav-link {
+    font-size: 0.9rem; /* Adjust font size for a more compact look */
+    padding: 0.25rem 0.5rem; /* Reduce padding for links */
+    color: #333; /* Set text color to dark for contrast */
+  }
+  
+  .navbar-brand:hover,
+  .nav-link:hover {
+    color: #007bff; /* Add hover effect for links */
+  }
+  
+  .navbar .container-fluid {
+    padding: 0; /* Remove extra padding from the container */
+  }

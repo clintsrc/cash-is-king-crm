@@ -1,11 +1,19 @@
-import { defineConfig } from "cypress";
-import viteConfig from "./vite.config";
-import path from "path";
-import { renameSync, mkdirSync, existsSync, readdirSync } from "fs";
+import { defineConfig } from 'cypress';
+import viteConfig from './vite.config';
+import path from 'path';
+import { renameSync, mkdirSync, existsSync, readdirSync } from 'fs';
 
 // To specify report paths later
 const getDirname = (importMetaUrl: string) => {
-  return path.dirname(new URL(importMetaUrl).pathname);
+  const url = new URL(importMetaUrl);
+  let pathname = url.pathname;
+
+  // Handle the drive letter in Windows paths (nonwindows don't have such a thing)
+  if (process.platform === 'win32') {
+    pathname = pathname.startsWith('/') ? pathname.slice(1) : pathname;
+  }
+
+  return path.dirname(path.normalize(decodeURIComponent(pathname)));
 };
 
 export default defineConfig({
@@ -16,22 +24,24 @@ export default defineConfig({
     reportDir: 'cypress/reports',
     overwrite: false,
     json: true,
-    html: false,
+    html: false
   },
 
   component: {
     port: 5173,
     devServer: {
-      framework: "react",
-      bundler: "vite",
-      viteConfig,
+      framework: 'react',
+      bundler: 'vite',
+      viteConfig
     },
     setupNodeEvents(on, config) {
-      on("after:run", () => {
-        const baseDir = getDirname(import.meta.url); // get cwd
-        const jsonDir = path.join(baseDir, "cypress/reports/.jsons");
-	// component reports
-        const componentDir = path.join(baseDir, "cypress/reports/component");
+      on('after:run', () => {
+        // Use import.meta.url to get the current directory
+        const baseDir = getDirname(import.meta.url);
+        // Default JSON reports directory
+        const jsonDir = path.join(baseDir, 'cypress/reports/.jsons');
+        //Custom component reports path
+        const componentDir = path.join(baseDir, 'cypress/reports/component');
 
         // Ensure the component report directory exists
         if (!existsSync(componentDir)) {
@@ -39,8 +49,8 @@ export default defineConfig({
         }
 
         // List all mochawesome JSON files in the .jsons directory
-        const reports = readdirSync(jsonDir).filter((file) =>
-          file.startsWith("mochawesome") && file.endsWith(".json")
+        const reports = readdirSync(jsonDir).filter(
+          file => file.startsWith('mochawesome') && file.endsWith('.json')
         );
 
         reports.forEach((file, index) => {
@@ -55,17 +65,20 @@ export default defineConfig({
           renameSync(oldPath, newPath);
         });
       });
-    },
+    }
   },
 
   e2e: {
     // baseUrl uses the frontend (vite) testing (dev mode only)
-    baseUrl: "http://localhost:3000",
+    baseUrl: 'http://localhost:3000',
     setupNodeEvents(on, config) {
-      on("after:run", () => {
-        const baseDir = getDirname(import.meta.url); // Use import.meta.url to get the current directory
-        const jsonDir = path.join(baseDir, "cypress/reports/.jsons"); // Actual JSON reports directory
-        const e2eDir = path.join(baseDir, "cypress/reports/e2e"); // Target directory for e2e reports
+      on('after:run', () => {
+        // Use import.meta.url to get the current directory
+        const baseDir = getDirname(import.meta.url);
+        // Default JSON reports directory
+        const jsonDir = path.join(baseDir, 'cypress/reports/.jsons');
+        // Custom e2e reports path
+        const e2eDir = path.join(baseDir, 'cypress/reports/e2e');
 
         // Ensure the e2e report directory exists
         if (!existsSync(e2eDir)) {
@@ -73,8 +86,8 @@ export default defineConfig({
         }
 
         // List all mochawesome JSON files in the .jsons directory
-        const reports = readdirSync(jsonDir).filter((file) =>
-          file.startsWith("mochawesome") && file.endsWith(".json")
+        const reports = readdirSync(jsonDir).filter(
+          file => file.startsWith('mochawesome') && file.endsWith('.json')
         );
 
         reports.forEach((file, index) => {
@@ -89,6 +102,6 @@ export default defineConfig({
           renameSync(oldPath, newPath);
         });
       });
-    },
-  },
+    }
+  }
 });

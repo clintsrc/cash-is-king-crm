@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_ORDER } from '../utils/mutations';
+import cikLogo from '../assets/images/CIK-Full.png';
 
 const Main = () => {
   const [formData, setFormData] = useState({
@@ -47,6 +48,7 @@ const Main = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       const { data } = await createOrder({
         variables: {
@@ -58,14 +60,49 @@ const Main = () => {
           }
         }
       });
+
       console.log('Order created:', data);
+
+      // Clear all form fields after successful submission
+      if (data && !data.errors) {
+        setFormData({
+          firstName: '',
+          lastName: '',
+          eventName: '',
+          startDate: '',
+          endDate: '',
+          description: '',
+          phoneNumber: '',
+          email: '',
+          atmCount: '',
+          address: {
+            street: '',
+            city: '',
+            state: '',
+            zip: ''
+          }
+        });
+      } else {
+        throw new Error(
+          'Error details from server: ' + JSON.stringify(data.errors)
+        );
+      }
     } catch (err) {
       console.error('Error creating order:', err);
+      // Don't clear form fields on error
     }
   };
 
   return (
     <Container>
+      <div className="image-container">
+        <img
+          //src="./src/assets/CIK-Full.png"
+          src={cikLogo}
+          alt="Cash is King Logo"
+          className="cik-image"
+        />
+      </div>
       <h2>Rent an ATM</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -195,7 +232,8 @@ const Main = () => {
             <input
               type="text"
               id="state"
-              placeholder="State"
+              placeholder="UT"
+              maxLength={2}
               value={formData.address.state}
               onChange={handleInputChange}
               required

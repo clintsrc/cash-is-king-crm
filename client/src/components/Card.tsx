@@ -57,6 +57,21 @@ const Card: React.FC<CardProps> = ({ order, onStatusChange }) => {
     }
   };
 
+  const handlePast = async () => {
+    try {
+      setIsUpdating(true);
+      await updateOrderStatus({
+        variables: {
+          id: order._id,
+          status: OrderStatus.PAST
+        }
+      });
+    } catch (error) {
+      console.error('Error approving order:', error);
+      setIsUpdating(false);
+    }
+  };
+
   const handleDeny = async () => {
     try {
       setIsUpdating(true);
@@ -98,6 +113,14 @@ const Card: React.FC<CardProps> = ({ order, onStatusChange }) => {
             >
               {isUpdating ? 'Deleting...' : 'Delete'}
             </Button>
+          ) : order.status === OrderStatus.SCHEDULED ? (
+            <Button
+              variant="success"
+              onClick={handlePast}
+              disabled={isUpdating}
+            >
+              {isUpdating ? 'completing' : 'Move to Past'}
+            </Button>
           ) : (
             order.status !== OrderStatus.PAST && (
               <Button
@@ -129,7 +152,7 @@ const Card: React.FC<CardProps> = ({ order, onStatusChange }) => {
               : 'justify-content-between'
           }`}
         >
-          <Button variant="secondary" onClick={handleModalShow}>
+          <Button variant="info" onClick={handleModalShow}>
             Info
           </Button>
           {order.status !== OrderStatus.SCHEDULED &&

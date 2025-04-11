@@ -1,24 +1,29 @@
-# 
+#
 # Deploy Check
 #
-# Executes for any PR or Merge pull request to the main branch. PR changes don't 
-# currently do anything, but it is extensible for adding final pre-release actions 
-# or tests like linting.
+# Executes for any PR the main branch, especially for 'Merge pull request'
+# 'Merge pull request' is a push action, and in that case this script will execute a
+# use a hook on the Render hosting service. Render will respond by pulling the source,
+# running the production build and hosting the deployment.
 #
-# Executes a deployment to Render for Merge pull request (push) actions to the main
-# branch.
+# Note that changes to any PR targeting main will execute this script, but in that
+# particular case, the script doesn't currently do anything. The reason is that it
+# remains extensible for adding final pre-release actions such as a subset of sanity
+# tests.
+#
+
 #
 # The script can be monitored on a pull request's Checks tab
 #
 name: Deploy To Production
 
 on:
-  # A merge from develop into main (clicking the 'Merge pull request' button) triggers 
-  # the push event to main 
+  # A merge from develop into main (clicking the 'Merge pull request' button) triggers
+  # the push event to main
   push:
     branches: [main]
   # Trigger for any pull request activity on the main branch (create, update)
-  # This allows additional steps to run for the PR without actually executing the 
+  # This allows additional steps to run for the PR without actually executing the
   # render deployment. This makes the script more extensible.
   pull_request:
     branches:

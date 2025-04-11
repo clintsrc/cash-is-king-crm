@@ -13,14 +13,12 @@ interface OrdersData {
 const Admin = () => {
   const [activeStatus, setActiveStatus] = useState<string>('PENDING');
 
-  const { loading, error, data, refetch } = useQuery<OrdersData>(QUERY_ORDERS);
+  const { loading, data, refetch } = useQuery<OrdersData>(QUERY_ORDERS);
 
   // Add debug logging
-  console.log('Admin Component - Error:', error);
   console.log('Admin Component - Data:', data);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
 
   const orders = data?.orders || [];
   console.log(
@@ -38,7 +36,7 @@ const Admin = () => {
   };
 
   return (
-    <Container className="my-5">
+    <Container className="my-5 admin-dashboard">
       <h1 className="text-center mb-4">Admin Dashboard</h1>
       <ButtonGroup className="mb-4 w-100">
         <Button

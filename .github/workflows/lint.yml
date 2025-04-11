@@ -1,9 +1,7 @@
 #
 # Lint Check
 #
-# Executes the linter for any commit push or open PR
-#
-# If a lint job is already running, cancel it to use the latest
+# Executes the linter on any branch where a commit is pushed and for any open PR
 #
 name: Lint
 

@@ -152,7 +152,7 @@ const Card: React.FC<CardProps> = ({ order, onStatusChange }) => {
               : 'justify-content-between'
           }`}
         >
-          <Button variant="secondary" onClick={handleModalShow}>
+          <Button variant="info" onClick={handleModalShow}>
             Info
           </Button>
           {order.status !== OrderStatus.SCHEDULED &&

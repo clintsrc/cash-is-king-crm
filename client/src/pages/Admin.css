@@ -2,182 +2,283 @@
 
 /* Reset some basic styling for consistency */
 * {
-    box-sizing: border-box;
-  }
-  
-  /* Global font settings */
-  body, h2, p, button {
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Header styling */
-  h2 {
-    margin-top: 2rem;
-    text-align: center;
-    color: #444;
-  }
-  
-  /* Container for the status buttons */
-  .top-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-    gap: 10px;
-  }
-  
-  /* Status button base styling */
-  .top-buttons button {
-    font-size: 1.25rem;
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f7f7f7; /* Light grey base */
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-  }
-  
-  /* Hover state for better interactivity */
-  .top-buttons button:hover {
-    background-color: #e0e0e0;
-    border-color: #bbb;
-  }
-  
-  /* Active state for a status button */
-  .top-buttons button.active {
-    background-color: #b0b0b0; /* Darker grey for active state */
-    border-color: #999;
-    color: #fff;
-  }
-  
-  /* Card styling for a more refined look */
-  .card {
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    border: none;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 0 auto;
-    transition: transform 0.2s ease;
-    background-color: #fff;
-  }
-  
-  /* Add a slight scale-up effect when hovering over the card */
-  .card:hover {
-    transform: scale(1.02);
-  }
-  
-  /* Card header: styling the top section with the Deny button */
-  .card-header {
-    background-color: #f1f1f1;
-    border: none;
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px 15px;
-  }
-  
-  /* Card body: spacing and text improvements */
-  .card-body {
-    padding: 20px;
-  }
-  
-  .card-title {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: #333;
-  }
-  
-  .card-text {
-    margin-bottom: 0.5rem;
-    color: #555;
-  }
-  
-  /* Card footer: separate and clearly laid out info and action buttons */
-  .card-footer {
-    background-color: #fafafa;
-    border-top: 1px solid #eee;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  /* Buttons within the card (Info, Approve, Deny) */
-  .card-footer button,
-  .card-header button {
-    font-size: 1rem;
-    padding: 8px 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s, border-color 0.3s;
-  }
-  
-  /* Deny button specific styling */
-  .card-header button {
-    font-size: 0.9rem;
-    padding: 5px 10px;
-  }
-  
-  /* Example additional button customizations - override default Bootstrap colors if needed */
-  .btn-secondary {
-    background-color: #777;
-    border-color: #666;
-    color: #fff;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #666;
-    border-color: #555;
-  }
-  
-  .btn-primary {
-    background-color: #5a5a5a;
-    border-color: #4a4a4a;
-    color: #fff;
-  }
-  
-  .btn-primary:hover {
-    background-color: #4a4a4a;
-    border-color: #3a3a3a;
-  }
-  
-  .btn-danger {
-    background-color: #e57373;
-    border-color: #e57373;
-    color: #fff;
-  }
-  
-  .btn-danger:hover {
-    background-color: #ef5350;
-    border-color: #ef5350;
-  }
-  
-  /* Responsive adjustments if needed */
-  @media (max-width: 768px) {
-    .top-buttons {
-      flex-direction: column;
-    }
-  
-    .top-buttons button {
-      width: 100%;
-      margin-bottom: 10px;
-    }
+  box-sizing: border-box;
+}
+
+/* Global font settings */
+body,
+h1,
+h2,
+p,
+button {
+  font-family: 'Arial', sans-serif;
+}
+
+/* Container styling - specific to Admin dashboard */
+
+.admin-dashboard .container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border: 10px solid #000000;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: rgb(0, 0, 0);
+}
+
+/* Header styling */
+.admin-dashboard h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 32px;
+  color: black;
+  font-weight: bold;
+}
+
+/* Button group styling */
+.admin-dashboard .btn-group {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  width: 100%;
+  background-color: #e5e5e5;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #000000;
+}
+
+.btn-secondary {
+  background-color: #007bff;
+  color: white;
+}
+
+.admin-dashboard .btn-group .btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  border: none;
+  border-radius: 0;
+}
+
+.admin-dashboard .btn-group .btn:hover {
+  background-color: #f4f4f4;
+}
+
+.admin-dashboard .btn-group .btn-primary {
+  background-color: #808080;
+  color: white;
+}
+
+.admin-dashboard .btn-group .btn-primary:hover {
+  background-color: #a9a9a9;
+}
+
+.admin-dashboard .btn-group .btn-outline-primary {
+  background-color: #e5e5e5;
+  color: black;
+}
+
+.admin-dashboard .btn-group .btn-outline-primary:hover {
+  background-color: #f4f4f4;
+}
+
+/* Green box for tabs and cards */
+.admin-dashboard .tabs-and-cards-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Card styling */
+.admin-dashboard .card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background-color: #f1f1f1;
+  transition: transform 0.2s ease;
+}
+
+.admin-dashboard .card:hover {
+  transform: scale(1.02);
+}
+
+/* Card header styling */
+.admin-dashboard .card-header {
+  background-color: #f1f1f1;
+  border-bottom: 1px solid #000000;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 15px;
+}
+
+/* Card body styling */
+.admin-dashboard .card-body {
+  padding: 20px;
+  margin-bottom: 0px;
+  background-color: #e0e0e0;
+}
+
+.admin-dashboard .card-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: black;
+  font-weight: bold;
+}
+
+.admin-dashboard .card-text {
+  margin-bottom: 0.5rem;
+  color: black;
+  font-size: 16px;
+}
+
+/* Card footer styling */
+.admin-dashboard .card-footer {
+  background-color: #f1f1f1;
+  border-top: 1px solid #000000;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Button styling */
+.admin-dashboard .btn {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.admin-dashboard .btn-secondary {
+  background-color: #e5e5e5;
+  color: black;
+  border: 1px solid #000000;
+}
+
+.admin-dashboard .btn-secondary:hover {
+  background-color: #f4f4f4;
+}
+
+/* Override Bootstrap button styles for info buttons */
+.admin-dashboard .card .card-footer .btn-info,
+.admin-dashboard .card-footer .btn-info {
+  background-color: #007bff !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.admin-dashboard .card .card-footer .btn-info:hover,
+.admin-dashboard .card .card-footer .btn-info:focus,
+.admin-dashboard .card-footer .btn-info:hover,
+.admin-dashboard .card-footer .btn-info:focus {
+  background-color: #0056b3 !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove any conflicting styles */
+.admin-dashboard .btn-info {
+  background-color: #007bff56 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.admin-dashboard .btn-primary {
+  background-color: #2e812fa9;
+  color: white;
+  border: none;
+}
+
+.admin-dashboard .btn-primary:hover {
+  background-color: #8fec88;
+}
+
+.admin-dashboard .btn-danger {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+}
+
+.admin-dashboard .btn-danger:hover {
+  background-color: #c9302c;
+}
+
+/* Modal styling */
+.admin-dashboard .modal-content {
+  background-color: #e5e5e5;
+  border: 1px solid #000000;
+  border-radius: 8px;
+}
+
+.admin-dashboard .modal-header {
+  background-color: #f1f1f1;
+  border-bottom: 1px solid #000000;
+}
+
+.admin-dashboard .modal-footer {
+  background-color: #f1f1f1;
+  border-top: 1px solid #000000;
+}
+
+.admin-dashboard .modal-title {
+  color: black;
+  font-weight: bold;
+}
+
+.admin-dashboard .modal-body p {
+  color: black;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.admin-dashboard .modal-body strong {
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-dashboard .btn-group {
+    flex-direction: column;
   }
 
-  .text-center a.btn-link {
-    font-size: 1.2rem;
-    color: #007bff;
-    text-decoration: none;
+  .admin-dashboard .btn-group .btn {
+    margin-bottom: 5px;
+    border-radius: 4px;
   }
-  
-  .text-center a.btn-link:hover {
-    text-decoration: underline;
+
+  .admin-dashboard .container {
+    padding: 15px;
   }
-  
-  .text-center button.btn-link {
-    font-size: 1.2rem;
-    color: #007bff;
-    text-decoration: none;
+
+  .admin-dashboard .tabs-and-cards-container {
+    padding: 10px;
   }
-  
-  .text-center button.btn-link:hover {
-    text-decoration: underline;
-  }
+}
+
+.text-center a.btn-link {
+  font-size: 1.2rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.text-center a.btn-link:hover {
+  text-decoration: underline;
+}
+
+.text-center button.btn-link {
+  font-size: 1.2rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.text-center button.btn-link:hover {
+  text-decoration: underline;
+}
